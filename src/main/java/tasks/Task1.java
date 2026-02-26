@@ -1,9 +1,7 @@
 package tasks;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import common.Person;
@@ -26,8 +24,7 @@ public class Task1 {
 
   // Асимптотика O(n + m) где n - размер persons, m - размер personIds
   public List<Person> findOrderedPersons(List<Integer> personIds) {
-    Set<Person> persons = personService.findPersons(personIds);
-    Map<Integer, Person> idToPerson = persons.stream().collect(Collectors.toMap(Person::id, person -> person));
-    return new ArrayList<>(personIds).stream().map(personId -> idToPerson.get(personId)).toList();
+    Map<Integer, Person> idToPerson = personService.findPersons(personIds).stream().collect(Collectors.toMap(Person::id, person -> person));
+    return personIds.stream().map(idToPerson::get).toList();
   }
 }
