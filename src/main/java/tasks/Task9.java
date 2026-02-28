@@ -37,9 +37,9 @@ public class Task9 {
   }
 
   // Зачем-то нужны различные имена этих же персон (без учета фальшивой разумеется)
-  // убрали distinct так как и так остаются только уникальные элементы при заворачивании в Set
+  // убрали stream и просто воспользовались конструктором HashSet т.к. stream излишен
   public Set<String> getDifferentNames(List<Person> persons) {
-    return getNames(persons).stream().collect(Collectors.toSet());
+    return new HashSet<>(getNames(persons));
   }
 
   // Тут фронтовая логика, делаем за них работу - склеиваем ФИО
@@ -57,8 +57,12 @@ public class Task9 {
 
   // есть ли совпадающие в двух коллекциях персоны?
   // из коллекции persons1 запустили stream и проверили чтобы хоть один элемент из persons1 находился в persons2
+  // итоговое время O(N)
   public boolean hasSamePersons(Collection<Person> persons1, Collection<Person> persons2) {
-    return persons1.stream().anyMatch(person -> persons2.contains(person)); // anyMatch возвращает true если есть хоть один из потока persons1, находящийся в persons2
+    // используем преобразование в HashSet чтобы contains работал за O(1), при этом преобращование в сам Set работает за O(N)
+    Set<Person> persons2Set = new HashSet<>(persons2);
+    // anyMatch возвращает true если есть хоть один из потока persons1, находящийся в persons2, работает за O(N) в данном случаи при помощи Set
+    return persons1.stream().anyMatch(person -> persons2Set.contains(person));
   }
 
   // Посчитать число четных чисел

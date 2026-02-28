@@ -24,7 +24,8 @@ public class Task1 {
 
   // Асимптотика O(n + m) где n - размер persons, m - размер personIds
   public List<Person> findOrderedPersons(List<Integer> personIds) {
-    Map<Integer, Person> idToPerson = personService.findPersons(personIds).stream().collect(Collectors.toMap(Person::id, person -> person));
+    Map<Integer, Person> idToPerson = personService.findPersons(personIds)
+                                      .stream().collect(Collectors.toMap(Person::id, person -> person));
     return personIds.stream().map(idToPerson::get).toList();
   }
 }
